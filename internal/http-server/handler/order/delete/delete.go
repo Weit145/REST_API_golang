@@ -1,4 +1,4 @@
-package create
+package delete
 
 import (
 	"errors"
@@ -7,15 +7,13 @@ import (
 	"net/http"
 
 	"github.com/Weit145/REST_API_golang/internal/lib/logger/sloger"
-	"github.com/Weit145/REST_API_golang/internal/storage/sqlite"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
 	"github.com/go-playground/validator/v10"
 )
 
 type Request struct {
-	OrderName string  `json:"order_name" validate:"required"`
-	Price     float64 `json:"price"`
+	OrderName string `json:"order_name" validate:"required"`
 }
 
 type Response struct {
@@ -23,13 +21,13 @@ type Response struct {
 	Error  string `json:"error,omitempty"`
 }
 
-type CreateOrder interface {
-	CreateOrder(order sqlite.Order) error
+type DeleteOrder interface {
+	DeleteOrder(name string) error
 }
 
-func New(log *slog.Logger, createOrder CreateOrder) http.HandlerFunc {
+func New(log *slog.Logger, deleteOrder DeleteOrder) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		const op = "http-server.handler.order.create.New"
+		const op = "http-server.handler.order.delete.New"
 
 		log = log.With(
 			slog.String("op", op),
@@ -60,7 +58,6 @@ func New(log *slog.Logger, createOrder CreateOrder) http.HandlerFunc {
 			})
 			return
 		}
-
 		if err = validator.New().Struct(req); err != nil {
 			log.Error("Validation error", sloger.Err(err))
 			render.Status(r, http.StatusBadRequest)
@@ -70,29 +67,19 @@ func New(log *slog.Logger, createOrder CreateOrder) http.HandlerFunc {
 			})
 			return
 		}
-
-		err = createOrder.CreateOrder(sqlite.Order{
-			Name:  req.OrderName,
-			Price: req.Price,
-		})
+		err = deleteOrder.DeleteOrder(req.OrderName)
 		if err != nil {
-			log.Error("Failed to create order", sloger.Err(err))
+			log.Error("Failed to delete order", sloger.Err(err))
 			render.Status(r, http.StatusInternalServerError)
 			render.JSON(w, r, Response{
 				Status: "error",
-				Error:  "failed to create order",
+				Error:  "failed to delete order",
 			})
 			return
 		}
-
-		render.Status(r, http.StatusCreated)
+		render.Status(r, http.StatusOK)
 		render.JSON(w, r, Response{
 			Status: "success",
 		})
-
-		log.Info("Creating order",
-			slog.String("order_name", req.OrderName),
-			slog.Float64("price", req.Price),
-		)
 	}
 }

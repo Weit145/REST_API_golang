@@ -9,6 +9,7 @@ import (
 
 	"github.com/Weit145/REST_API_golang/internal/config"
 	"github.com/Weit145/REST_API_golang/internal/http-server/handler/order/create"
+	"github.com/Weit145/REST_API_golang/internal/http-server/handler/order/delete"
 	"github.com/Weit145/REST_API_golang/internal/http-server/handler/order/read"
 	"github.com/Weit145/REST_API_golang/internal/lib/logger/sloger"
 	"github.com/Weit145/REST_API_golang/internal/storage/sqlite"
@@ -88,6 +89,7 @@ func main() {
 
 	router.Post("/orders", create.New(log, storage))          // TODO: add handler
 	router.Get("/order/{order_name}", read.New(log, storage)) // TODO: add handler
+	router.Delete("/order", delete.New(log, storage))         // TODO: add handler
 
 	srv := &http.Server{
 		Addr:         "0.0.0.0:8080",
