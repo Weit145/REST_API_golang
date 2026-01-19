@@ -9,6 +9,7 @@ import (
 
 	"github.com/Weit145/REST_API_golang/internal/config"
 	"github.com/Weit145/REST_API_golang/internal/http-server/handler/order/create"
+	"github.com/Weit145/REST_API_golang/internal/http-server/handler/order/read"
 	"github.com/Weit145/REST_API_golang/internal/lib/logger/sloger"
 	"github.com/Weit145/REST_API_golang/internal/storage/sqlite"
 	"github.com/go-chi/chi"
@@ -46,27 +47,27 @@ func main() {
 	// 	os.Exit(1)
 	// }
 
-	var select_order sqlite.Order
+	// var select_order sqlite.Order
 
-	select_order, err = storage.ReadOrder("Sample Order")
-	if err != nil {
-		log.Error("Failed to read order", sloger.Err(err))
-	}
-	fmt.Printf("Order: %+v\n", select_order)
+	// select_order, err = storage.ReadOrder("Sample Order")
+	// if err != nil {
+	// 	log.Error("Failed to read order", sloger.Err(err))
+	// }
+	// fmt.Printf("Order: %+v\n", select_order)
 
-	err = storage.UpdateOrder(sqlite.Order{
-		Name:  "Sample Order",
-		Price: 200,
-	})
-	if err != nil {
-		log.Error("Failed to update order", sloger.Err(err))
-	}
+	// err = storage.UpdateOrder(sqlite.Order{
+	// 	Name:  "Sample Order",
+	// 	Price: 200,
+	// })
+	// if err != nil {
+	// 	log.Error("Failed to update order", sloger.Err(err))
+	// }
 
-	select_order, err = storage.ReadOrder("Sample Order")
-	if err != nil {
-		log.Error("Failed to read order", sloger.Err(err))
-	}
-	fmt.Printf("Order: %+v\n", select_order)
+	// select_order, err = storage.ReadOrder("Sample Order")
+	// if err != nil {
+	// 	log.Error("Failed to read order", sloger.Err(err))
+	// }
+	// fmt.Printf("Order: %+v\n", select_order)
 
 	// err = storage.DeleteOrder("Order")
 	// if err != nil {
@@ -85,7 +86,8 @@ func main() {
 	router.Use(middleware.RealIP)
 	router.Use(middleware.Logger)
 
-	router.Post("/orders", create.New(log, storage)) // TODO: add handler
+	router.Post("/orders", create.New(log, storage))          // TODO: add handler
+	router.Get("/order/{order_name}", read.New(log, storage)) // TODO: add handler
 
 	srv := &http.Server{
 		Addr:         "0.0.0.0:8080",
