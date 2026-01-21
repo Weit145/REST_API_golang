@@ -21,6 +21,7 @@ type Response struct {
 	Order  sqlite.Order `json:"order,omitempty"`
 }
 
+//go:generate go run github.com/vektra/mockery/v2@v2.53.5 --name=ReadOrder
 type ReadOrder interface {
 	ReadOrder(name string) (sqlite.Order, error)
 }

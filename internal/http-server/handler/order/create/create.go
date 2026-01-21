@@ -23,6 +23,7 @@ type Response struct {
 	Error  string `json:"error,omitempty"`
 }
 
+//go:generate go run github.com/vektra/mockery/v2@v2.53.5 --name=CreateOrder
 type CreateOrder interface {
 	CreateOrder(order sqlite.Order) error
 }
@@ -40,8 +41,6 @@ func New(log *slog.Logger, createOrder CreateOrder) http.HandlerFunc {
 
 		err := render.DecodeJSON(r.Body, &req)
 		if errors.Is(err, io.EOF) {
-			// Такую ошибку встретим, если получили запрос с пустым телом.
-			// Обработаем её отдельно
 			log.Error("request body is empty")
 			render.Status(r, http.StatusBadRequest)
 			render.JSON(w, r, Response{
@@ -67,6 +66,26 @@ func New(log *slog.Logger, createOrder CreateOrder) http.HandlerFunc {
 			render.JSON(w, r, Response{
 				Status: "error",
 				Error:  "validation error: " + err.Error(),
+			})
+			return
+		}
+
+		if req.Price <= 0 {
+			log.Error("Invalid price value")
+			render.Status(r, http.StatusBadRequest)
+			render.JSON(w, r, Response{
+				Status: "error",
+				Error:  "price must be greater than zero",
+			})
+			return
+		}
+
+		if req.OrderName == "" {
+			log.Error("Order name is required")
+			render.Status(r, http.StatusBadRequest)
+			render.JSON(w, r, Response{
+				Status: "error",
+				Error:  "order name is required",
 			})
 			return
 		}

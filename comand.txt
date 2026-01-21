@@ -14,3 +14,6 @@ curl -X DELETE http://127.0.0.1:8080/order \
 curl -X PUT http://127.0.0.1:8080/order \
   -H "Content-Type: application/json" \
   -d '{"order_name":"TestOrder","price":200.00}'
+
+
+go generate ./...
