@@ -18,19 +18,23 @@ import (
 
 func TestReadHander(t *testing.T) {
 	cases := []struct {
+		name      string
 		OrderName string
 		respError string
 		mockError error
 	}{
 		{
+			name:      "success read order",
 			OrderName: "Potato",
 			respError: "success",
 		},
 		{
+			name:      "success read order",
 			OrderName: "Order2",
 			respError: "success",
 		},
 		{
+			name:      "error not found",
 			OrderName: "Order3",
 			respError: "error",
 			mockError: errors.New("Not found"),
@@ -38,7 +42,7 @@ func TestReadHander(t *testing.T) {
 	}
 	for _, tc := range cases {
 		tc := tc
-		t.Run(tc.OrderName, func(t *testing.T) {
+		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
 
 			mockReadOrder := mocks.NewReadOrder(t)

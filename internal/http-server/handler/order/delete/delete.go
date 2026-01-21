@@ -21,6 +21,7 @@ type Response struct {
 	Error  string `json:"error,omitempty"`
 }
 
+//go:generate go run github.com/vektra/mockery/v2@v2.53.5 --name=DeleteOrder
 type DeleteOrder interface {
 	DeleteOrder(name string) error
 }
