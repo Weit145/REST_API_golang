@@ -74,7 +74,7 @@ func TestCreateHandker(t *testing.T) {
 
 			input := fmt.Sprintf(`{"order_name":"%s","price":%f}`, tc.OrderName, tc.Price)
 
-			req, err := http.NewRequest(http.MethodPost, "/orders", strings.NewReader(input))
+			req, err := http.NewRequest(http.MethodPost, "/order", strings.NewReader(input))
 			require.NoError(t, err)
 
 			rr := httptest.NewRecorder()

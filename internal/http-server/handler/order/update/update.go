@@ -22,6 +22,7 @@ type Response struct {
 	Error  string `json:"error,omitempty"`
 }
 
+//go:generate go run github.com/vektra/mockery/v2@v2.53.5 --name=UpdateOrder
 type UpdateOrder interface {
 	UpdateOrder(order sqlite.Order) error
 }
@@ -58,6 +59,26 @@ func New(log *slog.Logger, updateOrder UpdateOrder) http.HandlerFunc {
 		}
 		if err = validator.New().Struct(req); err != nil {
 			log.Error("Validation error", sloger.Err(err))
+			render.Status(r, http.StatusBadRequest)
+			render.JSON(w, r, Response{
+				Status: "error",
+				Error:  "validation error: " + err.Error(),
+			})
+			return
+		}
+		if req.OrderName == "" {
+			err = errors.New("order_name is required")
+			log.Error("Missing Name", sloger.Err(err))
+			render.Status(r, http.StatusBadRequest)
+			render.JSON(w, r, Response{
+				Status: "error",
+				Error:  "validation error: " + err.Error(),
+			})
+			return
+		}
+		if req.Price == 0 {
+			err = errors.New("order price is 0")
+			log.Error("Price 0", sloger.Err(err))
 			render.Status(r, http.StatusBadRequest)
 			render.JSON(w, r, Response{
 				Status: "error",

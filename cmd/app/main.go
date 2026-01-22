@@ -88,7 +88,7 @@ func main() {
 	router.Use(middleware.RealIP)
 	router.Use(middleware.Logger)
 
-	router.Post("/orders", create.New(log, storage))          // TODO: add handler
+	router.Post("/order", create.New(log, storage))           // TODO: add handler
 	router.Get("/order/{order_name}", read.New(log, storage)) // TODO: add handler
 	router.Delete("/order", delete.New(log, storage))         // TODO: add handler
 	router.Put("/order", update.New(log, storage))            // TODO: add handler
