@@ -7,12 +7,12 @@ import (
 	"os"
 	"time"
 
-	my_middleware "github.com/Weit145/REST_API_golang/cmd/middleware"
 	"github.com/Weit145/REST_API_golang/internal/config"
 	"github.com/Weit145/REST_API_golang/internal/http-server/handler/order/create"
 	"github.com/Weit145/REST_API_golang/internal/http-server/handler/order/delete"
 	"github.com/Weit145/REST_API_golang/internal/http-server/handler/order/read"
 	"github.com/Weit145/REST_API_golang/internal/http-server/handler/order/update"
+	my_middleware "github.com/Weit145/REST_API_golang/internal/http-server/middleware"
 	"github.com/Weit145/REST_API_golang/internal/lib/logger/sloger"
 	"github.com/Weit145/REST_API_golang/internal/storage/sqlite"
 	"github.com/go-chi/chi"
