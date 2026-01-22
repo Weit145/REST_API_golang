@@ -26,7 +26,7 @@ func AuthMiddleware(log *slog.Logger) func(http.Handler) http.Handler {
 			)
 
 			name, pass, ok := r.BasicAuth()
-			if !ok || name != "Weit" || pass != "123456" {
+			if !ok || name != "Weit" || pass != "123" {
 				err := errors.New("unauthorized")
 				log.Error("authorization failed", sloger.Err(err))
 

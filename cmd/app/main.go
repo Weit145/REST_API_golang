@@ -91,7 +91,7 @@ func main() {
 
 	router.Route("/order", func(r chi.Router) {
 		// r.Use(middleware.BasicAuth("REST_API_golang", map[string]string{
-		// 	"Weit": "123456",
+		// 	"Weit": "123",
 		// }))
 
 		r.With(my_middleware.AuthMiddleware(log)).Post("/", create.New(log, storage))

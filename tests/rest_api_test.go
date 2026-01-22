@@ -25,7 +25,7 @@ func TestUrlRestAPI_CRUD(t *testing.T) {
 			OrderName: "Test",
 			Price:     123.123,
 		}).
-		WithBasicAuth("Weit", "123456").
+		WithBasicAuth("Weit", "123").
 		Expect().
 		Status(201).
 		JSON().Object()
@@ -48,7 +48,7 @@ func TestUrlRestAPI_CRUD(t *testing.T) {
 			OrderName: "Test",
 			Price:     456.456,
 		}).
-		WithBasicAuth("Weit", "123456").
+		WithBasicAuth("Weit", "123").
 		Expect().
 		// Status(201).
 		JSON().Object()
@@ -70,7 +70,7 @@ func TestUrlRestAPI_CRUD(t *testing.T) {
 		WithJSON(delete.Request{
 			OrderName: "Test",
 		}).
-		WithBasicAuth("Weit", "123456").
+		WithBasicAuth("Weit", "123").
 		Expect().
 		Status(200).
 		JSON().Object()
