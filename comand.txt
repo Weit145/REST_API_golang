@@ -1,4 +1,4 @@
-curl -X POST http://127.0.0.1:8080/orders \
+curl -u Weit:123456 -X POST http://127.0.0.1:8080/order \
   -H "Content-Type: application/json" \
   -d '{"order_name":"TestOrder","price":123.45}'
 
@@ -6,14 +6,15 @@ curl -X POST http://127.0.0.1:8080/orders \
 curl -X GET http://127.0.0.1:8080/order/TestOrder
 
 
-curl -X DELETE http://127.0.0.1:8080/order \
+curl -u Weit:123456 -X DELETE http://127.0.0.1:8080/order \
   -H "Content-Type: application/json" \
   -d '{"order_name":"TestOrder"}'
 
 
-curl -X PUT http://127.0.0.1:8080/order \
+curl -u Weit:123456 -X PUT http://127.0.0.1:8080/order \
   -H "Content-Type: application/json" \
   -d '{"order_name":"TestOrder","price":200.00}'
+
 
 
 go generate ./...

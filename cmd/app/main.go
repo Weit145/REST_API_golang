@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	my_middleware "github.com/Weit145/REST_API_golang/cmd/middleware"
 	"github.com/Weit145/REST_API_golang/internal/config"
 	"github.com/Weit145/REST_API_golang/internal/http-server/handler/order/create"
 	"github.com/Weit145/REST_API_golang/internal/http-server/handler/order/delete"
@@ -88,10 +89,21 @@ func main() {
 	router.Use(middleware.RealIP)
 	router.Use(middleware.Logger)
 
-	router.Post("/order", create.New(log, storage))           // TODO: add handler
-	router.Get("/order/{order_name}", read.New(log, storage)) // TODO: add handler
-	router.Delete("/order", delete.New(log, storage))         // TODO: add handler
-	router.Put("/order", update.New(log, storage))            // TODO: add handler
+	router.Route("/order", func(r chi.Router) {
+		// r.Use(middleware.BasicAuth("REST_API_golang", map[string]string{
+		// 	"Weit": "123456",
+		// }))
+
+		r.With(my_middleware.AuthMiddleware(log)).Post("/", create.New(log, storage))
+		r.Get("/{order_name}", read.New(log, storage))
+		r.With(my_middleware.AuthMiddleware(log)).Delete("/", delete.New(log, storage))
+		r.With(my_middleware.AuthMiddleware(log)).Put("/", update.New(log, storage))
+	})
+
+	// router.Post("/order", create.New(log, storage))
+	// router.Get("/order/{order_name}", read.New(log, storage))
+	// router.Delete("/order", delete.New(log, storag
+	// router.Put("/order", update.New(log, storage))
 
 	srv := &http.Server{
 		Addr:         "0.0.0.0:8080",
