@@ -28,7 +28,7 @@ func TestCreateHandker(t *testing.T) {
 			name:      "missing order name",
 			OrderName: "",
 			Price:     100,
-			respError: "success",
+			respError: "error",
 		},
 		{
 			name:      "missing order price",
