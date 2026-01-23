@@ -25,7 +25,7 @@ jobs:
           path: |
             ~/go/pkg/mod
             ~/.cache/go-build
-          key: key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
+          key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
 
@@ -35,9 +35,9 @@ jobs:
       - name: Build project
         run: go build ./...
 
-      - name: Run handler tests
+      - name: Run unit tests for order handlers
         run: |
-          go test ./internal/http-server/handler/order/read -v
           go test ./internal/http-server/handler/order/create -v
-          go test ./internal/http-server/handler/order/delete -v
+          go test ./internal/http-server/handler/order/read -v
           go test ./internal/http-server/handler/order/update -v
+          go test ./internal/http-server/handler/order/delete -v
