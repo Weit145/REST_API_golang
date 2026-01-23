@@ -80,6 +80,8 @@ func TestCreateHandker(t *testing.T) {
 			rr := httptest.NewRecorder()
 			handler.ServeHTTP(rr, req)
 
+			// require.Equal(t, rr.Code, http.StatusCreated)
+
 			body := rr.Body.String()
 
 			var resp create.Response
