@@ -1,4 +1,4 @@
-name: Go CI
+name: CI
 
 on:
   push:
@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.20'
+          go-version: '1.25.5'
 
       - name: Cache Go modules
         uses: actions/cache@v3
@@ -32,12 +32,11 @@ jobs:
       - name: Download dependencies
         run: go mod download
 
-      - name: Build project
-        run: go build ./...
+      - name: Vet (статический анализ)
+        run: go vet ./...
 
-      - name: Run handler tests
-        run: |
-          go test ./internal/http-server/handler/order/read -v
-          go test ./internal/http-server/handler/order/create -v
-          go test ./internal/http-server/handler/order/delete -v
-          go test ./internal/http-server/handler/order/update -v
+      - name: Build
+        run: go build -v ./...
+
+      - name: Run tests
+        run: go test -v -race -cover ./...
