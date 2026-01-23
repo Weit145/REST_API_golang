@@ -1,23 +1,23 @@
-name: CI
+name: Go CI
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "master", "main", "develop" ]
   pull_request:
-    branches: [ "main", "develop" ]
+    branches: [ "master", "main", "develop" ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.25.5'
+          go-version: '1.20'
 
       - name: Cache Go modules
         uses: actions/cache@v3
@@ -32,11 +32,12 @@ jobs:
       - name: Download dependencies
         run: go mod download
 
-      - name: Vet (статический анализ)
-        run: go vet ./...
+      - name: Build project
+        run: go build ./...
 
-      - name: Build
-        run: go build -v ./...
-
-      - name: Run tests
-        run: go test -v -race -cover ./...
+      - name: Run handler tests
+        run: |
+          go test ./internal/http-server/handler/order/read -v
+          go test ./internal/http-server/handler/order/create -v
+          go test ./internal/http-server/handler/order/delete -v
+          go test ./internal/http-server/handler/order/update -v

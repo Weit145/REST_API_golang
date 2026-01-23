@@ -1,43 +1,27 @@
-name: Go CI
+curl -u Weit:123 -X POST http://127.0.0.1:8080/order \
+  -H "Content-Type: application/json" \
+  -d '{"order_name":"TestOrder","price":123.45}'
 
-on:
-  push:
-    branches: [ "master", "main", "develop" ]
-  pull_request:
-    branches: [ "master", "main", "develop" ]
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
+curl -X GET http://127.0.0.1:8080/order/TestOrder
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: '1.20'
+curl -u Weit:123 -X DELETE http://127.0.0.1:8080/order \
+  -H "Content-Type: application/json" \
+  -d '{"order_name":"TestOrder"}'
 
-      - name: Cache Go modules
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/go/pkg/mod
-            ~/.cache/go-build
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
 
-      - name: Download dependencies
-        run: go mod download
+curl -u Weit:123 -X PUT http://127.0.0.1:8080/order \
+  -H "Content-Type: application/json" \
+  -d '{"order_name":"TestOrder","price":200.00}'
 
-      - name: Build project
-        run: go build ./...
 
-      - name: Run handler tests
-        run: |
-          go test ./internal/http-server/handler/order/read -v
-          go test ./internal/http-server/handler/order/create -v
-          go test ./internal/http-server/handler/order/delete -v
-          go test ./internal/http-server/handler/order/update -v
+
+go generate ./...
+
+go test ./internal/http-server/handler/order/read -v
+go test ./internal/http-server/handler/order/create -v
+go test ./internal/http-server/handler/order/delete -v
+go test ./internal/http-server/handler/order/update -v
+
+go test ./tests -v
