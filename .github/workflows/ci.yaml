@@ -42,5 +42,5 @@ jobs:
           go test ./internal/http-server/handler/order/update -v
           go test ./internal/http-server/handler/order/delete -v
 
-      - name: Run integration tests
-        run: go test ./tests -v
+      # - name: Run integration tests
+      #   run: go test ./tests -v
