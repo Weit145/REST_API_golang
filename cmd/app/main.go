@@ -49,6 +49,7 @@ func main() {
 		// r.Use(middleware.BasicAuth("REST_API_golang", map[string]string{
 		// 	"Weit": "123",
 		// }))
+
 		r.With(my_middleware.AuthMiddleware(log)).Post("/", create.New(log, storage))
 		r.Get("/{order_name}", read.New(log, storage))
 		r.With(my_middleware.AuthMiddleware(log)).Delete("/", delete.New(log, storage))
