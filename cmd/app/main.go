@@ -39,50 +39,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Create, Read, Delete order
-
-	// err = storage.СreateOrder(sqlite.Order{
-	// 	Name:  "Order",
-	// 	Price: 100,
-	// })
-	// if err != nil {
-	// 	log.Error("Failed to create order", sloger.Err(err))
-	// 	os.Exit(1)
-	// }
-
-	// var select_order sqlite.Order
-
-	// select_order, err = storage.ReadOrder("Sample Order")
-	// if err != nil {
-	// 	log.Error("Failed to read order", sloger.Err(err))
-	// }
-	// fmt.Printf("Order: %+v\n", select_order)
-
-	// err = storage.UpdateOrder(sqlite.Order{
-	// 	Name:  "Sample Order",
-	// 	Price: 200,
-	// })
-	// if err != nil {
-	// 	log.Error("Failed to update order", sloger.Err(err))
-	// }
-
-	// select_order, err = storage.ReadOrder("Sample Order")
-	// if err != nil {
-	// 	log.Error("Failed to read order", sloger.Err(err))
-	// }
-	// fmt.Printf("Order: %+v\n", select_order)
-
-	// err = storage.DeleteOrder("Order")
-	// if err != nil {
-	// 	log.Error("Failed to delete order", sloger.Err(err))
-	// }
-
-	// select_order, err = storage.ReadOrder("Order")
-	// if err != nil {
-	// 	log.Error("Failed to read order", sloger.Err(err))
-	// }
-	// fmt.Printf("Order: %+v\n", select_order)
-
 	router := chi.NewRouter()
 
 	router.Use(middleware.RequestID)
