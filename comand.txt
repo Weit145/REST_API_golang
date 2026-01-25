@@ -25,3 +25,5 @@ go test ./internal/http-server/handler/order/delete -v
 go test ./internal/http-server/handler/order/update -v
 
 go test ./tests -v
+
+go mod tidy

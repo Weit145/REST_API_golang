@@ -2,6 +2,7 @@ package create_test
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -36,13 +37,13 @@ func TestCreateHandker(t *testing.T) {
 			Price:     0,
 			respError: "error",
 		},
-		// {
-		// 	name:      "failed to create order",
-		// 	OrderName: "Order2",
-		// 	Price:     200,
-		// 	respError: "fail",
-		// 	mockError: errors.New("Field to create"),
-		// },
+		{
+			name:      "failed to create order",
+			OrderName: "Order2",
+			Price:     200,
+			respError: "error",
+			mockError: errors.New("Field to create"),
+		},
 		{
 			name:      "success create order",
 			OrderName: "Order3",
