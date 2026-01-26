@@ -1,5 +1,5 @@
 env : "local"
-storage_path: "./storage/url-shortener.db"
+storage_path: "/app/storage/url-shortener.db"
 http_server:
   address: "0.0.0.0:8080"
   timeout: 4s

@@ -27,3 +27,7 @@ go test ./internal/http-server/handler/order/update -v
 go test ./tests -v
 
 go mod tidy
+
+docker build -t rest_api .
+
+docker run -p 8080:8080 rest_api
