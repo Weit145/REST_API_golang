@@ -35,6 +35,7 @@ func main() {
 	// Initialize storage
 	storage, err := sqlite.New(cfg.StoragePath)
 	if err != nil {
+		log.Info("Path: ", cfg.StoragePath)
 		log.Error("Failed to initialize storage", sloger.Err(err))
 		os.Exit(1)
 	}
